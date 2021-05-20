@@ -1,67 +1,8 @@
-/***********************************************************
-# - interval: margins between slides are measured in pixels
-# - slidesToShow: number of shown sliders
-# - slidesToScroll: number of scrollable sliders
-# - arrows: show pagination
-# - autoplaySpeed: ms scrolling speed
-***********************************************************/ 
-
-const easySliderSettings = {
-    arrows: false,
-    interval: 10,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-    // autoplaySpeed: 1000,
-    responsive: [
-        {
-            breakpoint: 1024,
-            settings: {
-                interval: 10,
-                slidesToShow: 2,
-                slidesToScroll: 1,
-                arrows: false,
-            }
-        },
-        {
-            breakpoint: 768,
-            settings: {
-                slidesToScroll: 1,
-                slidesToShow: 1,
-                interval: 0, 
-                arrows: false,
-            }
-        }
-    ],
-};
-
-new EasySlider('#easy-slider_1', easySliderSettings);
-
-const easySliderSettings2 = {
-    arrows: false,
-    interval: 10,
-    slidesToShow: 2,
-    slidesToScroll: 1,
-    autoplaySpeed: 5000,
-    responsive: [
-        {
-            breakpoint: 768,
-            settings: {
-                slidesToScroll: 1,
-                slidesToShow: 1,
-                interval: 0, 
-                arrows: false,
-            }
-        }
-    ],
-};
-
-new EasySlider('#easy-slider_2', easySliderSettings2);
-
 class EasySlider {
     constructor(id, settings) {
         this.windowResizeController = true;
         this.easySlider = document.querySelector(id);
-        this.defaultSettings = Object.assign({}, settings);
+        this.defaultSettings = { ...settings };
         this.settings = settings;
         this.breakpoint = window.innerWidth;
         this.slider =  this.easySlider.querySelector('.easy-slider-list');
@@ -192,7 +133,7 @@ class EasySlider {
         console.log('onResize');
         this.settings.responsive.forEach(breakpointItem => {
             if (breakpointItem.breakpoint >  window.innerWidth && breakpointItem.breakpoint != this.breakpoint) {
-                this.settings = Object.assign(this.settings, breakpointItem.settings);
+                this.settings = { ...this.settings, ...breakpointItem.settings };
                 this.breakpoint = breakpointItem.breakpoint;
                 console.log('New Settings');
                 this.windowResizeController = true;
@@ -201,7 +142,7 @@ class EasySlider {
         });
 
         if (this.breakpoint <= window.innerWidth && this.windowResizeController) {
-            this.settings =  Object.assign({}, this.defaultSettings);
+            this.settings =  { ...this.defaultSettings };
             this.windowResizeController = false;
             this.breakpoint = window.innerWidth;
             this.styleBuilder();
@@ -239,3 +180,40 @@ class EasySlider {
     }
 }
 
+/***********************************************************
+# - interval: margins between slides are measured in pixels
+# - slidesToShow: number of shown sliders
+# - slidesToScroll: number of scrollable sliders
+# - arrows: show pagination
+# - autoplaySpeed: ms scrolling speed
+***********************************************************/ 
+
+// const easySliderSettings = {
+//     arrows: false,
+//     interval: 10,
+//     slidesToShow: 3,
+//     slidesToScroll: 3,
+//     // autoplaySpeed: 1000,
+//     responsive: [
+//         {
+//             breakpoint: 1024,
+//             settings: {
+//                 interval: 10,
+//                 slidesToShow: 2,
+//                 slidesToScroll: 1,
+//                 arrows: false,
+//             }
+//         },
+//         {
+//             breakpoint: 768,
+//             settings: {
+//                 slidesToScroll: 1,
+//                 slidesToShow: 1,
+//                 interval: 0, 
+//                 arrows: false,
+//             }
+//         }
+//     ],
+// };
+
+// new EasySlider('#easy-slider_1', easySliderSettings);
